@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xxljob-admin
+  labels:
+    app: xxljob-admin
+spec:
+  selector:
+    matchLabels:
+      app: xxljob-admin
+  template:
+    metadata:
+      labels:
+        app: xxljob-admin
+    spec:
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com
+      containers:
+        - name: xxljob-admin
+          image: ghcr.io/niuguy/xxljob-next:v1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PARAMS
+              value: "--spring.datasource.url=jdbc:mysql://172.19.0.2:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC --spring.datasource.username=root --spring.datasource.password=vnc-uyz8vxj2vjm7VNC"
