@@ -6,7 +6,7 @@ on:
 
 env:
   VERSION: v1.0.0
-  IMAGE_BASE_URL: ghcr.io/fanarepo/xxljob-next
+  IMAGE_BASE_URL: ghcr.io/niuguy/xxljob-next
 
 jobs:
   build-and-push-image:
