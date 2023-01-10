@@ -2,7 +2,7 @@ name: Release backend image
 
 on:
   push:
-    branches: ['main']
+    branches: ['master']
 
 env:
   VERSION: v1.0.0
