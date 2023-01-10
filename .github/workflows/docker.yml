@@ -1,0 +1,38 @@
+name: Release backend image
+
+on:
+  push:
+    branches: ['main']
+
+env:
+  VERSION: v1.0.0
+  IMAGE_BASE_URL: ghcr.io/fanarepo/xxljob-next
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: |
+          cd xxl-job-admin
+          mvn clean package --file pom.xml -q -DskipTests=true
+
+      - name: Build and push Docker image
+        run: |
+          cd xxl-job-admin
+          docker login ghcr.io -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+          docker build -t ${{ env.IMAGE_BASE_URL }}:${{ env.VERSION }} .
+          docker push ${{ env.IMAGE_BASE_URL }}:${{ env.VERSION }}
